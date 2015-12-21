@@ -41,8 +41,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String PREF_NAME = "name";
     SharedPreferences mSharedPreferences;
     String userName;
-    String COCK;
-    String VAGINA;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
