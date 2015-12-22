@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView tx1;
     EditText ed1,ed2;
     int counter = 3;
+    int start = 9;
     private static final String PREFS = "prefs";
     private static final String PREF_NAME = "name";
     SharedPreferences mSharedPreferences;
