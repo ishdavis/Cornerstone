@@ -14,10 +14,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.app.Activity;
+import android.util.SparseArray;
+import android.view.Menu;
+import android.widget.ExpandableListView;
 
-public class Interests extends ListActivity {
+public class Interests extends Activity {
 
-    public ListView chart;
+    SparseArray<Group> groups = new SparseArray<Group>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +32,22 @@ public class Interests extends ListActivity {
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getWindow().getDecorView().setBackgroundColor(Color.rgb(237, 24, 69));
-        chart = (ListView) findViewById(android.R.id.list);
-        String [] words = {"Hello", "World", "what", "a", "b", "c", "d", "e", "i", "aaaa", "ieiei"};
+        createData();
+        ExpandableListView listView = (ExpandableListView) findViewById(R.id.expandableListView);
+        MyExpandableListAdapter adapter = new MyExpandableListAdapter(this,
+                groups);
+        listView.setAdapter(adapter);
+        /*String [] words = {"Hello", "World", "what", "a", "b", "c", "d", "e", "i", "aaaa", "ieiei"};
         //this.setListAdapter(new ArrayAdapter<String>(this, R.layout.list_item, android.R.id.list, words));
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, words);
-        setListAdapter(adapter);
+        setListAdapter(adapter);*/
+    }
+
+    private void createData(){
+        Group group = new Group("Tits");
+        group.children.add("Boobies");
+        group.children.add("Whatever");
+        groups.append(0,group);
     }
 
 }

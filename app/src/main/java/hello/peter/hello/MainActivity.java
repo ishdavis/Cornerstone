@@ -55,11 +55,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ed2=(EditText)findViewById(R.id.editText2);
 
         b2=(Button)findViewById(R.id.button2);
-        tx1=(TextView)findViewById(R.id.textView3);
+        //tx1=(TextView)findViewById(R.id.textView3);
         //tx1.setVisibility(View.GONE);
-        tx1.setVisibility(View.VISIBLE);
-        tx1.setBackgroundColor(Color.rgb(237,24,69));
-        tx1.setText(Integer.toString(3));
+        //tx1.setVisibility(View.VISIBLE);
+        //tx1.setBackgroundColor(Color.rgb(237,24,69));
+        //tx1.setText(Integer.toString(3));
 
         displayWelcome();
 
@@ -74,14 +74,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     Toast.makeText(getApplicationContext(), "Wrong Credentials", Toast.LENGTH_SHORT).show();
 
-                    tx1.setVisibility(View.VISIBLE);
-                    tx1.setBackgroundColor(Color.rgb(237,24,69));
-                    counter--;
-                    tx1.setText(Integer.toString(counter));
+                    //tx1.setVisibility(View.VISIBLE);
+                    //tx1.setBackgroundColor(Color.rgb(237,24,69));
+                    //counter--;
+                    //tx1.setText(Integer.toString(counter));
 
-                    if (counter == 0) {
+                    /*if (counter == 0) {
                         b1.setEnabled(false);
-                    }
+                    }*/
                 }
             }
         });

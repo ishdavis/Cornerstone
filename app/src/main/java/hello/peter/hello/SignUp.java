@@ -29,6 +29,7 @@ import android.widget.Toast;
 import android.os.AsyncTask;
 import java.sql.*;
 import java.lang.*;
+import android.graphics.Color;
 
 public class SignUp extends AppCompatActivity {
 
@@ -43,6 +44,7 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_sign_up);
+        getWindow().getDecorView().setBackgroundColor(Color.rgb(237, 24, 69));
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         //super.onCreate(savedInstanceState);
