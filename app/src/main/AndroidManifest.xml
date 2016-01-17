@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="hello.peter.hello" >
+    package="hello.peter.hello">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.read_external_storage" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,10 +25,28 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_home"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/FullscreenTheme" >
+            android:theme="@style/FullscreenTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="hello.peter.hello.MainActivity" />
+        </activity>
+        <activity
+            android:name=".SignUp"
+            android:label="@string/title_activity_sign_up"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="hello.peter.hello.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Interests"
+            android:label="@string/title_activity_interests"
+            android:parentActivityName=".SignUp"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="hello.peter.hello.SignUp" />
         </activity>
     </application>
 

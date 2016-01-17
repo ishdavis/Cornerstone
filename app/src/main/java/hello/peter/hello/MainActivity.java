@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.app.Activity;
+import android.content.Intent;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getWindow().getDecorView().setBackgroundColor(Color.RED);
+        getWindow().getDecorView().setBackgroundColor(Color.rgb(237,24,69));
 
         b1=(Button)findViewById(R.id.button);
         ed1=(EditText)findViewById(R.id.editText);
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tx1=(TextView)findViewById(R.id.textView3);
         //tx1.setVisibility(View.GONE);
         tx1.setVisibility(View.VISIBLE);
-        tx1.setBackgroundColor(Color.RED);
+        tx1.setBackgroundColor(Color.rgb(237,24,69));
         tx1.setText(Integer.toString(3));
 
         displayWelcome();
@@ -73,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(getApplicationContext(), "Wrong Credentials", Toast.LENGTH_SHORT).show();
 
                     tx1.setVisibility(View.VISIBLE);
-                    tx1.setBackgroundColor(Color.RED);
+                    tx1.setBackgroundColor(Color.rgb(237,24,69));
                     counter--;
                     tx1.setText(Integer.toString(counter));
 
@@ -86,7 +88,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent i = new Intent(MainActivity.this, SignUp.class);
+                MainActivity.this.startActivity(i);
             }
         });
     }
