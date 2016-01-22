@@ -13,4 +13,5 @@
     <string name="title_activity_sign_up">SignUp</string>
     <string name="title_activity_test1">Test1</string>
     <string name="title_activity_interests">Interests</string>
+    <string name="title_activity_addfriends">Addfriends</string>
 </resources>

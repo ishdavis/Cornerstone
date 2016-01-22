@@ -79,9 +79,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //counter--;
                     //tx1.setText(Integer.toString(counter));
 
-                    /*if (counter == 0) {
+                    if (counter == 0) {
                         b1.setEnabled(false);
-                    }*/
+                    }
                 }
             }
         });

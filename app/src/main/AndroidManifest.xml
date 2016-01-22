@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.read_external_storage" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -47,6 +48,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="hello.peter.hello.SignUp" />
+        </activity>
+        <activity
+            android:name=".Addfriends"
+            android:label="@string/title_activity_addfriends"
+            android:parentActivityName=".Interests"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="hello.peter.hello.Interests" />
         </activity>
     </application>
 

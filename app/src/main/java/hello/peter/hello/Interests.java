@@ -18,6 +18,19 @@ import android.app.Activity;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.widget.ExpandableListView;
+import android.content.Context;
+import java.sql.*;
+import android.os.AsyncTask;
+import android.util.Pair;
+
+import com.firebase.client.Firebase;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.lang.System.*;
+import java.io.*;
+import java.sql.*;
+
 
 public class Interests extends Activity {
 
@@ -29,7 +42,9 @@ public class Interests extends Activity {
         setContentView(R.layout.activity_interests);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-
+        Firebase.setAndroidContext(this);
+        Firebase myFirebaseRef = new Firebase("https://dazzling-fire-8069.firebaseio.com/");
+        myFirebaseRef.child("message").setValue("Do you have data? You'll love Firebase.");
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getWindow().getDecorView().setBackgroundColor(Color.rgb(237, 24, 69));
         createData();
@@ -37,16 +52,15 @@ public class Interests extends Activity {
         MyExpandableListAdapter adapter = new MyExpandableListAdapter(this,
                 groups);
         listView.setAdapter(adapter);
-        /*String [] words = {"Hello", "World", "what", "a", "b", "c", "d", "e", "i", "aaaa", "ieiei"};
-        //this.setListAdapter(new ArrayAdapter<String>(this, R.layout.list_item, android.R.id.list, words));
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, words);
-        setListAdapter(adapter);*/
     }
 
     private void createData(){
         Group group = new Group("Tits");
         group.children.add("Boobies");
         group.children.add("Whatever");
+        Group group2 = new Group("Dicks");
+        group2.children.add("Chicks");
+        groups.append(1, group2);
         groups.append(0,group);
     }
 

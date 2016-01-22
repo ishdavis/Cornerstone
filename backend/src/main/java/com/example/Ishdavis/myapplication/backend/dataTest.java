@@ -1,6 +1,11 @@
 package com.example.Ishdavis.myapplication.backend;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.*;
+import java.sql.*;
+import javax.servlet.http.*;
+import com.google.appengine.api.utils.SystemProperty;
+
 /**
  * Created by Ishdavis on 12/26/2015.
  */
@@ -35,4 +40,7 @@ public class dataTest {
         this.age = age;
     }
 
+    public static void dbConnect(){
+
+    }
 }
