@@ -152,17 +152,4 @@ public class SignUp extends AppCompatActivity {
         return cursor.getString(idx);
     }
 
-    /*public class Connect extends AsyncTask<Context, Integer, Long> {
-        protected Long doInBackground(Context... contexts) {
-            Connection connection;
-            String query = "Some query";
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                connection = DriverManager.getConnection("jdbc:mysql://<your cloud IP address>/<database schema you want to connect to>", "<user>", "<password>");
-
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(query);
-        }
-    }}*/
-
 }

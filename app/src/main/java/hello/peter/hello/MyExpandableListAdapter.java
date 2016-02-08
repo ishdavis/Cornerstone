@@ -10,6 +10,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.graphics.Color;
 /**
  * Created by Ishdavis on 1/17/2016.
  */
@@ -48,8 +49,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         convertView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(activity, children,
-                        Toast.LENGTH_SHORT).show();
+                //parent.setBackgroundColor(Color.parseColor("#18EDC0"));
             }
         });
         return convertView;
