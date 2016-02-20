@@ -5,13 +5,13 @@ package hello.peter.hello.Models;
  */
 public class Person {
 
-    protected String userName, Password, phoneNumber, biography, picURL;
+    protected String userName,password, phoneNumber, picURL;
 
     public Person(){}
 
     public Person(String name, String pass, String phone, String pic){
         userName = name;
-        Password = pass;
+        password = pass;
         phoneNumber = phone;
         picURL = pic;
     }
@@ -21,26 +21,22 @@ public class Person {
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public String getBiography() {
-        return biography;
-    }
-
     public String getPicURL() {
         return picURL;
     }
 
-    public Person(String name, String pass, String phone, String bio, String pic){
+    /*public Person(String name, String pass, String phone, String bio, String pic){
         userName = name;
-        Password = pass;
+        password = pass;
         phoneNumber = phone;
         biography = bio;
         picURL = pic;
-    }
+    }*/
 }

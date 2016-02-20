@@ -34,6 +34,8 @@ import android.widget.Button;
 import android.app.LoaderManager;
 import android.content.Loader;
 import android.content.CursorLoader;
+
+import com.firebase.client.FirebaseError;
 import com.google.gson.Gson;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -43,7 +45,18 @@ import android.provider.ContactsContract;
 import android.content.ContentResolver;
 import android.view.WindowManager;
 import android.view.Window;
-
+import android.app.ProgressDialog;
+import android.os.Bundle;
+import android.os.Handler;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import com.firebase.client.Firebase;
+import com.firebase.client.Query;
+import android.util.Base64;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+import android.content.SharedPreferences;
 
 
 public class Interests extends Activity implements
@@ -52,24 +65,37 @@ public class Interests extends Activity implements
     SparseArray<Group> groups = new SparseArray<Group>();
     ArrayList<String> names, number;
     Button submitButton;
+    public Handler updateBarHandler;
+    public AlertDialog.Builder alertDialogBuilder;
+    AlertDialog alertDialog;
+    String userName;
+    public MyExpandableListAdapter adapter;
+    final ArrayList<Integer> member = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_interests);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-        Firebase.setAndroidContext(this);
-        //Firebase myFirebaseRef = new Firebase("https://dazzling-fire-8069.firebaseio.com/");
-        //myFirebaseRef.child("message").setValue("Do you have data? You'll love Firebase.");
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Intent intent = getIntent();
+        SharedPreferences prefs = this.getSharedPreferences(getString(R.string.shared_prefs), MODE_PRIVATE);
+        userName = prefs.getString("username", null);
+        alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Please choose up to 10 activites that interest you");
+        alertDialogBuilder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                alertDialog.dismiss();
+            }
+        });
         getWindow().getDecorView().setBackgroundColor(Color.rgb(237, 24, 69));
         createData();
+        updateBarHandler = new Handler();
         ExpandableListView listView = (ExpandableListView) findViewById(R.id.expandableListView);
         submitButton = (Button)findViewById(R.id.interests);
-        MyExpandableListAdapter adapter = new MyExpandableListAdapter(this,
-                groups);
+        //20 is hardcoded
+        adapter = new MyExpandableListAdapter(this,
+                groups, groups.size(), 20);
         listView.setAdapter(adapter);
         getLoaderManager().initLoader(1,
                 null,
@@ -93,14 +119,32 @@ public class Interests extends Activity implements
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         //The framework will take care of closing the
         // old cursor once we return.
-        contactsFromCursor(cursor);
+        final Cursor temp = cursor;
+        final ProgressDialog dialog = ProgressDialog.show(Interests.this, "", "Loading Interests....", true);
+        alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    contactsFromCursor(temp);
+                    dialog.dismiss();
+                }
+                catch (Exception e) {
+                }
+            }
+        }).start();
         //saveCursor(cursor); Might need this later
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Firebase pushInterests = new Firebase("https://dazzling-fire-8069.firebaseio.com/users")
+                        .child(userName).child("interests");
+                pushInterests.setValue(adapter.getInterests());
                 Intent i = new Intent(Interests.this, Addfriends.class);
                 i.putStringArrayListExtra("names", names);
                 i.putStringArrayListExtra("number", number);
+                i.putIntegerArrayListExtra("member", member);
                 Interests.this.startActivity(i);
             }
         });
@@ -156,9 +200,27 @@ public class Interests extends Activity implements
                             ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
                             new String[]{id}, null);
                     while (pCur.moveToNext()) {
-                        String phoneNo = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        String rawNum = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        final String phoneNo = rawNum.replaceAll("[^0-9]", "");
                         names.add(name);
                         number.add(phoneNo);
+                        Firebase userRef = new Firebase("https://dazzling-fire-8069.firebaseio.com/numbers/" + phoneNo);
+                        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.exists()) {
+                                    member.add(1);
+                                } else {
+                                    member.add(0);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+
+                            }
+                        });
+                        break;
                     }
                     pCur.close();
                 }
@@ -173,6 +235,14 @@ public class Interests extends Activity implements
      * Clears out the adapter's reference to the Cursor.
      * This prevents memory leaks.
      */
+    }
+
+    /**
+     * Do nothing on back press
+     */
+    @Override
+    public void onBackPressed(){
+        return;
     }
 
     /**
@@ -193,14 +263,14 @@ public class Interests extends Activity implements
         food.children.add("Indian");
         food.children.add("Spanish");
         food.children.add("African");
-        food.children.add("Chinese/Japanese");
+        food.children.add("Chinese-Japanese");
 
         Group music = new Group("Music");
-        music.children.add("Rap/Hip-Hop");
+        music.children.add("Rap-Hip-Hop");
         music.children.add("Country");
         music.children.add("Rock");
         music.children.add("Pop");
-        music.children.add("Dance/EDM");
+        music.children.add("Dance-EDM");
         music.children.add("Religious");
         music.children.add("International");
 

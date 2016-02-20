@@ -12,35 +12,49 @@
     tools:context="hello.peter.hello.Addfriends"
     tools:showIn="@layout/activity_addfriends">
 
-    <SearchView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/searchView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="76dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Search friends by username"
+        android:text="Touch below to search by username"
         android:id="@+id/textView2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:gravity="center"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:gravity="center" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/friendView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/searchView"
+        android:layout_above="@+id/Friends"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
+
+    <SearchView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchView"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/textView2"
+        android:layout_alignEnd="@+id/textView2" />
+
+    <Button android:id="@+id/Friends"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Continue"
+        android:layout_alignParentBottom="true"
+        android:enabled="true"
+        android:textColor="#ffffff"
+        android:textColorHighlight="#ffffff"
+        android:background="#9e9e9e"
+        android:ellipsize="none"
+        android:textSize="20dp"
+        android:layout_centerHorizontal="true"
+         />
 </RelativeLayout>

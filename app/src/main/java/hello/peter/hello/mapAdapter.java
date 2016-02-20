@@ -1,5 +1,8 @@
 package hello.peter.hello;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,18 +11,29 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.content.Context;
+import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Map;
+import android.telephony.gsm.SmsManager;
+
 import android.widget.Button;
-   /**
+
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+
+import hello.peter.hello.Utils.Omni;
+
+/**
      * Created by Ishdavis on 1/30/2016.
      */
     public class mapAdapter extends
             RecyclerView.Adapter<mapAdapter.ViewHolder>{
 
-        public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        public static class ViewHolder extends RecyclerView.ViewHolder{
             // Your holder should contain a member variable
             // for any view that will be set as you render a row
             public TextView name;
@@ -32,31 +46,24 @@ import android.widget.Button;
                 super(itemView);
                 name = (TextView) itemView.findViewById(R.id.addFriends);
                 invite = (Button) itemView.findViewById(R.id.invite_button);
-                if(invite.isEnabled() == false){
-                    int k = 5;
-                }
-                name.setOnClickListener(this);
-                invite.setOnClickListener(this);
-                itemView.setOnClickListener(this);
-            }
 
-            // onClick Listener for view
-            @Override
-            public void onClick(View v) {
-                if(v.getId() == invite.getId()){
-                    //invite.setVisibility(View.INVISIBLE);
-                    invite.setEnabled(false);
-                    //invited.setVisibility(View.VISIBLE);
-                }
-                else if(v.getId() == name.getId()){}
             }
             }
 
-        protected ArrayList<String> names, numbers;
+        final protected ArrayList<String> names, numbers;
+        final protected ArrayList<Integer> member;
+        protected int [] memo;
+        protected Drawable curr;
+        protected Context context;
+        final protected String userName;
         // Pass in the contact array into the constructor
-        public mapAdapter(ArrayList<String> name, ArrayList<String> number) {
+        public mapAdapter(ArrayList<String> name, ArrayList<String> number, Context in, ArrayList<Integer> members, String userName) {
             names = name;
             numbers = number;
+            memo = new int[names.size()];
+            context = in;
+            member = members;
+            this.userName = userName;
         }
 
         @Override
@@ -77,31 +84,59 @@ import android.widget.Button;
             TextView view = viewHolder.name;
             view.setText(names.get(position));
             Button but = viewHolder.invite;
-            if(position % 2 == 0){but.setText("invite");}
-            else{but.setText("add");}
-            //final Button realButton = but;
-            //final int pos = position;
-//            but.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    realButton.setText(numbers.get(pos));
-//                    realButton.setVisibility(View.INVISIBLE);
-//                }
-//            });
-            // + numbers.get(position));
-            /*pic.setOnClickListener(new View.OnClickListener() {
+            if(curr == null) {
+                curr = but.getBackground();
+            }
+
+            if(memo[position] == 1){//If it has been clicked
+                but.setText("");
+                but.setEnabled(false);
+                but.setBackgroundResource(R.mipmap.ic_check_mark_md);
+            }
+            else {//if it hasn't been clicked
+                but.setBackgroundDrawable(curr);
+                but.setEnabled(true);
+                if(member.get(position) == 0){
+                    but.setText("Invite");
+                }
+                else{
+                    but.setText("Add");
+                }
+            }
+            final Button realButton = but;
+            final int pos = position;
+            but.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //int position = getLayoutPosition();
-                    savedState cur = MainActivity.customCanvas.getPaths().get(po);
-                    MainActivity.customCanvas.drawSaved(cur.getMyPath());
+                    realButton.setText("");
+                    realButton.setBackgroundResource(R.mipmap.ic_check_mark_md);
+                    memo[pos] = 1;
+                    realButton.setEnabled(false);
+                    if(member.get(pos) == 0){//Invite, send text
+                        Omni.sendInvite(numbers.get(pos), names.get(pos));
+                        Toast.makeText(context, "Friend Invited", Toast.LENGTH_SHORT).show();
+                    }
+                    else{//Add through firebase
+                        //Get username
+                        Firebase userRef = new Firebase("https://dazzling-fire-8069.firebaseio.com/numbers").child(numbers.get(pos));
+                        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                           @Override
+                           public void onDataChange(DataSnapshot dataSnapshot) {
+                             String friendName = (String)dataSnapshot.getValue();
+                             Omni.addFriend(userName,friendName);//Possibly change this to friend requests
+                               Toast.makeText(context, "Friend Request Sent", Toast.LENGTH_SHORT).show();
+                           }
 
+                           @Override
+                           public void onCancelled(FirebaseError firebaseError) {
+
+                           }
+                       });
+                    }
                 }
-            });*/
-            //add touch events
+            });
+
         }
-
-
 
         @Override
         public int getItemCount() {

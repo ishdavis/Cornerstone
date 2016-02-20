@@ -19,7 +19,7 @@
         android:ems="10"
         android:id="@+id/editText4"
         android:enabled="true"
-        android:maxLength="10"
+        android:maxLength="20"
         android:editable="true"
         android:hint="Password"
         android:textColorHint="#ffffff"
@@ -71,21 +71,24 @@
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/editText4"
         android:layout_alignEnd="@+id/editText4"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:maxLength="20" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText3"
         android:textColorHint="#ffffff"
-        android:hint="Phone #"
+        android:hint="10 digit phone #"
         android:layout_below="@+id/editText4"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:singleLine="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:inputType="number"
+        android:maxLength="10" />
 
     <TextView
         android:layout_width="wrap_content"
