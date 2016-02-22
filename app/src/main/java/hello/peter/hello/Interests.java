@@ -59,7 +59,7 @@ import com.firebase.client.ValueEventListener;
 import android.content.SharedPreferences;
 
 
-public class Interests extends Activity implements
+public class Interests extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
     SparseArray<Group> groups = new SparseArray<Group>();

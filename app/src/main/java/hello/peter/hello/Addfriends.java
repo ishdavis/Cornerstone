@@ -1,5 +1,6 @@
 package hello.peter.hello;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -15,6 +16,7 @@ import android.database.Cursor;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Loader;
+import android.widget.Button;
 import android.widget.SearchView;
 
 import java.lang.reflect.Array;
@@ -45,14 +47,12 @@ public class Addfriends extends AppCompatActivity{
     ArrayList<String> names, number;
     ArrayList<Integer> member;
     private String userName;
+    Button Submit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addfriends);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         SearchView search = (SearchView)findViewById(R.id.searchView);
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -97,6 +97,14 @@ public class Addfriends extends AppCompatActivity{
 
         rvContacts.setAdapter(adapter);
         rvContacts.setLayoutManager(new LinearLayoutManager(this));
+        Submit = (Button)findViewById(R.id.Friends);
+        Submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Addfriends.this, Landing.class);
+                Addfriends.this.startActivity(i);
+            }
+        });
     }
 
 }
