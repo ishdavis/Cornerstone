@@ -62,13 +62,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = getSharedPreferences(getString(R.string.shared_prefs), MODE_PRIVATE);
+        if(prefs.getInt("Logged In", 0) == 1) {
+            //User is logged in, go to their profile here
+            //Intent i = new Intent(MainActivity.this, Landing.class);
+            //MainActivity.this.startActivity(i);
+        }
         setContentView(R.layout.activity_main);
         getWindow().getDecorView().setBackgroundColor(Color.rgb(237, 24, 69));
         Firebase.setAndroidContext(this);
-        prefs = getSharedPreferences(getString(R.string.shared_prefs), MODE_PRIVATE);
-        if(prefs.getInt("Logged In", 0) == 1){
-            //User is logged in, go to their profile here
-        }
         b1=(Button)findViewById(R.id.button);
         ed1=(EditText)findViewById(R.id.editText);
         ed2=(EditText)findViewById(R.id.editText2);
@@ -100,7 +102,8 @@ public class MainActivity extends AppCompatActivity {
                                         if (pass.equals(password)) {
                                             //go to new activity, specifically profile
                                             dialog.dismiss();
-                                            Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                                            Intent i = new Intent(MainActivity.this, Landing.class);
+                                            MainActivity.this.startActivity(i);
                                         } else {
                                             dialog.dismiss();
                                             Toast.makeText(getApplicationContext(), "Incorrect UserName or Password", Toast.LENGTH_LONG).show();

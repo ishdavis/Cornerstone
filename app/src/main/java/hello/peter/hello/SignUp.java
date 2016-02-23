@@ -12,7 +12,12 @@ import android.util.Base64;
 import android.widget.Button;
 import android.widget.EditText;
 import android.view.View;
+
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import android.graphics.Matrix;
@@ -136,10 +141,6 @@ public class SignUp extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Password must be at least 7 characters", Toast.LENGTH_LONG).show();
             return;
         }
-        /*PendingIntent pi = PendingIntent.getActivity(this, 0,
-                new Intent(this, SignUp.class), 0);
-        Text Messaging SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage("9125506413", null, "hello", pi, null);*/
 
 
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -159,9 +160,13 @@ public class SignUp extends AppCompatActivity {
                     phoneRef.child(phonenumber).setValue(username);
                     //Adding logged in to shard prefs here
                     editor.putInt("Logged In", 1);
-                    editor.apply();
                     editor.putString("username", username);
+                    editor.putString("password", password);
+                    editor.putString("phonenumber", phonenumber);
                     editor.apply();
+
+                    if(bitmap != null){saveProfilePic(bitmap);}
+
                     Intent i = new Intent(SignUp.this, Interests.class);
                     //possibly change to sqlite later
                     SignUp.this.startActivity(i);
@@ -172,45 +177,12 @@ public class SignUp extends AppCompatActivity {
             public void onCancelled(FirebaseError arg0) {
             }
         });
-        // Bitmap temp = StringToBitMap(bitString);
-        // imageView.setImageBitmap(temp);
-
-
-        //DataSnapshot shot = new DataSnapshot(Ref,new IndexedNode);
-        //if bitmap !=null
-        /*CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
-                getApplicationContext(),
-                "us-east-1:9cf8d95d-3efb-4e63-a578-933720fdab0a", // Identity Pool ID
-                Regions.US_EAST_1 // Region
-        );*/
-        /*AmazonS3 s3 = new AmazonS3Client(credentialsProvider);
-        s3.setRegion(Region.getRegion(Regions.US_EAST_1));
-        TransferUtility transferUtility = new TransferUtility(s3, getApplicationContext());
-        TransferObserver observer = transferUtility.upload(
-                "pittforge",
-                username,
-                MY_FILE
-        );*/
-
 
     }
 
     @Override
     public void onStart(){
         super.onStart();
-        /*Refs.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Person p = dataSnapshot.getValue(Person.class);
-                Bitmap map = StringToBitMap(p.getPicURL());
-                imageView.setImageBitmap(map);
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });*/
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -234,6 +206,19 @@ public class SignUp extends AppCompatActivity {
                 e.printStackTrace();
             }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void saveProfilePic(Bitmap map){
+        String filename = "bitmap.png";
+        FileOutputStream outputStream;
+
+        try {
+            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, outputStream);
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

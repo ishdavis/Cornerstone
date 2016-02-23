@@ -8,8 +8,87 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/tabColor"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="hello.peter.hello.CreateEvent"
     tools:showIn="@layout/activity_create_event">
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/eventName"
+        android:textColorHint="#ffffff"
+        android:textColor="#ffffff"
+        android:hint="Event Name"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/timePicker"
+        android:layout_alignEnd="@+id/timePicker" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/location"
+        android:layout_below="@+id/eventName"
+        android:layout_alignRight="@+id/eventName"
+        android:layout_alignEnd="@+id/eventName"
+        android:layout_alignLeft="@+id/eventName"
+        android:layout_alignStart="@+id/eventName"
+        android:textColorHint="#ffffff"
+        android:textColor="#ffffff"
+        android:hint="Location"
+        android:backgroundTint="@color/colorPrimaryDark"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/summary"
+        android:textColorHint="#ffffff"
+        android:textColor="#ffffff"
+        android:hint="Short Summary"
+        android:layout_below="@+id/location"
+        android:layout_alignRight="@+id/location"
+        android:layout_alignEnd="@+id/location"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:maxLines="2" />
+
+    <TimePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timePicker"
+        android:layout_below="@+id/textView3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:numbersTextColor="#ffffff"
+        android:numbersSelectorColor="#ffffff"
+        android:numbersInnerTextColor="#ffffff"
+        android:numbersBackgroundColor="#ffffff"
+        android:amPmTextColor="#ffffff"
+        android:timePickerMode="spinner"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Choose Start-Time below"
+        android:id="@+id/textView3"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/summary"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="39dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create"
+        android:id="@+id/button4"
+        android:layout_below="@id/timePicker"
+        android:textColor="#ffffff"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

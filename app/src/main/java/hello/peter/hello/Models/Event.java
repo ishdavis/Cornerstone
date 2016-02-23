@@ -7,20 +7,40 @@ import java.util.ArrayList;
  */
 public class Event {
 
-    protected String Location, name;
+    protected String Location;
+    protected String name;
+
+    public String getSummary() {
+        return Summary;
+    }
+
+    public void setSummary(String summary) {
+        Summary = summary;
+    }
+
+    public Person getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Person creator) {
+        this.creator = creator;
+    }
+
+    protected String Summary;
     protected ArrayList<Person> members;
     protected int hour, minute;
     protected Person creator;
 
     public Event(){}
 
-    public Event(String loc, String name, ArrayList<Person> mem, int h, int m, Person p){
+    public Event(String loc, String name, ArrayList<Person> mem, int h, int m, Person p, String sum){
         Location = loc;
         this.name = name;
         members = mem;
         hour = h;
         minute = m;
         creator = p;
+        Summary = sum;
     }
 
     public String getLocation() {

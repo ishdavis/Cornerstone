@@ -27,6 +27,7 @@ public class Landing extends AppCompatActivity {
         private Toolbar toolbar;
         private TabLayout tabLayout;
         private ViewPager viewPager;
+        private final int CREATE_EVENT = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +102,7 @@ public class Landing extends AppCompatActivity {
                 return true;
             case R.id.add_event:
                 Intent i = new Intent(Landing.this, CreateEvent.class);
-                Landing.this.startActivity(i);
+                Landing.this.startActivityForResult(i,CREATE_EVENT);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
