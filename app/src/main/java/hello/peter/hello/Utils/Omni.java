@@ -28,6 +28,8 @@ import java.util.Map;
  */
 public class Omni extends Activity{
 
+    public static String RootRef = "https://dazzling-fire-8069.firebaseio.com/";
+
     public static String BitMapToString(Bitmap bitmap){
         ByteArrayOutputStream baos = new  ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
@@ -66,6 +68,15 @@ public class Omni extends Activity{
         Map<String,Object> addUser = new HashMap<String,Object>();
         addUser.put(friendUsername, 1);
         RefTest.updateChildren(addUser);
+    }
+
+    public static int negateString(String input){
+        int number = 0;
+        input = input.toLowerCase();
+        for(int i = 1; i < input.length()-1; i++){
+
+        }
+        return 0 - number;
     }
 
 

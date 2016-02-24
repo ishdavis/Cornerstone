@@ -166,6 +166,10 @@ public class SignUp extends AppCompatActivity {
                     editor.apply();
 
                     if(bitmap != null){saveProfilePic(bitmap);}
+                    else{
+                        bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_default_profile);
+                        saveProfilePic(bitmap);
+                    }
 
                     Intent i = new Intent(SignUp.this, Interests.class);
                     //possibly change to sqlite later

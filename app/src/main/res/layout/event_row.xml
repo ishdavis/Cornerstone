@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="10dp" android:paddingTop="10dp">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/eventPic"
+        android:paddingLeft="16dp"
+        android:layout_gravity="left"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/eventText"
+        android:layout_gravity="end"
+        android:text="Hallo"
+        android:layout_alignBottom="@+id/eventPic"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/userName"
+        android:layout_gravity="left"
+        android:layout_toEndOf="@+id/eventPic"
+        android:layout_below="@+id/eventPic"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Location"
+        android:layout_above="@+id/eventText"
+        android:layout_toRightOf="@+id/eventPic"
+        android:layout_toEndOf="@+id/eventPic" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Summary"
+        android:layout_toRightOf="@+id/eventPic"
+        android:layout_below="@+id/Location"
+        />
+</RelativeLayout>

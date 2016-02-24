@@ -16,9 +16,13 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import hello.peter.hello.Models.Event;
 import hello.peter.hello.Models.Person;
@@ -121,12 +125,26 @@ public class CreateEvent extends AppCompatActivity {
         String passWord = prefs.getString("password", "");
         String phoneNo = prefs.getString("phonenumber", "");
         Person currentUser = new Person(userName,passWord,phoneNo, Omni.BitMapToString(getProfilePic()));
-        Event newEvent = new Event(location,name,new ArrayList<Person>(),hour,minute,currentUser,summary);
+        HashMap<String,Person> list = new HashMap<String,Person>();
+        list.put(userName, currentUser);
+        Event newEvent = new Event(location,name, list ,hour,minute,currentUser,summary);
+
+        //add to firebase event
+        Firebase ref = new Firebase(Omni.RootRef).child("event");
+        Firebase otherRef = ref.push();
+        otherRef.setValue(newEvent);
+
+
+        String postId = otherRef.getKey();
+        Firebase userRef = new Firebase(Omni.RootRef).child("users").child(userName).child("events");
+        Map<String,Object> myMap = new HashMap<String,Object>();
+        myMap.put(postId,1);
+        userRef.updateChildren(myMap);
         finish();
     }
 
     private Bitmap getProfilePic(){
-        String yourFilePath = getApplicationContext().getFilesDir() + "/" + "map.png";
+        String yourFilePath = getApplicationContext().getFilesDir() + "/" + "bitmap.png";
         File yourFile = new File(yourFilePath);
         return BitmapFactory.decodeFile(yourFilePath);
     }

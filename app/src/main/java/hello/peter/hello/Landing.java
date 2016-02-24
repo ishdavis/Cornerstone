@@ -48,8 +48,8 @@ public class Landing extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new tab1(), "ONE");
-        adapter.addFragment(new Tab2(), "TWO");
+        adapter.addFragment(new tab1(), "ALL");
+        adapter.addFragment(new Tab2(), "FRIENDS");
         viewPager.setAdapter(adapter);
     }
 

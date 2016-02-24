@@ -1,6 +1,8 @@
 package hello.peter.hello.Models;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Created by Ishdavis on 2/20/2016.
@@ -27,13 +29,13 @@ public class Event {
     }
 
     protected String Summary;
-    protected ArrayList<Person> members;
+    protected HashMap<String,Person> members;
     protected int hour, minute;
     protected Person creator;
 
     public Event(){}
 
-    public Event(String loc, String name, ArrayList<Person> mem, int h, int m, Person p, String sum){
+    public Event(String loc, String name, HashMap<String,Person> mem, int h, int m, Person p, String sum){
         Location = loc;
         this.name = name;
         members = mem;
@@ -59,11 +61,11 @@ public class Event {
         this.name = name;
     }
 
-    public ArrayList<Person> getMembers() {
+    public HashMap<String,Person> getMembers() {
         return members;
     }
 
-    public void setMembers(ArrayList<Person> members) {
+    public void setMembers(HashMap<String,Person> members) {
         this.members = members;
     }
 

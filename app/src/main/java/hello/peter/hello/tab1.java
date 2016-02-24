@@ -1,9 +1,13 @@
 package hello.peter.hello;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,26 +22,27 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+
+import com.firebase.client.Firebase;
+import com.firebase.ui.FirebaseRecyclerAdapter;
+
 import java.text.DateFormat;
 import java.util.Calendar;
 
+import hello.peter.hello.Models.Event;
+import hello.peter.hello.Utils.Omni;
+import hello.peter.hello.util.DividerItemDecoration;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * interface
- * to handle interaction events.
- * Use the {@link tab1#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class tab1 extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    protected Button Time;
-    TimePickerDialog.OnTimeSetListener t;
-    Calendar dateAndTime;
+    protected RecyclerView skeleton;
+    protected FirebaseRecyclerAdapter<Event,EventViewHolder> adapter;
+    protected Context context;
+    public ProgressDialog barProgressDialog;
 
 
     // TODO: Rename and change types of parameters
@@ -73,30 +78,46 @@ public class tab1 extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        DateFormat fmtDateAndTime= DateFormat.getDateTimeInstance();
-        dateAndTime=Calendar.getInstance();
-        t=new TimePickerDialog.OnTimeSetListener() {
-            public void onTimeSet(TimePicker view, int hourOfDay,
-                                  int minute) {
-                Time.setText(hourOfDay + " " + minute);
-                //Retrieve time that was set here
-                //Set timed notification
-            }
-        };
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-         View view = inflater.inflate(R.layout.fragment_tab1, container, false);
-        Time = (Button) view.findViewById(R.id.clicker);
-        Time.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                new TimePickerDialog(container.getContext(),t,dateAndTime.get(Calendar.HOUR_OF_DAY),dateAndTime.get(Calendar.MINUTE),false).show();
+        View view = inflater.inflate(R.layout.fragment_tab1, container, false);
+        Firebase.setAndroidContext(context);
+        skeleton = (RecyclerView)view.findViewById(R.id.allActivities);
+        RecyclerView.ItemDecoration itemDecoration = new
+                DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST);
+        skeleton.addItemDecoration(itemDecoration);
+        //skeleton.setHasFixedSize(true);
+        LinearLayoutManager manage = new LinearLayoutManager(context);
+        manage.setReverseLayout(true);
+        manage.setStackFromEnd(true);
+        skeleton.setLayoutManager(manage);
+        Firebase ref = new Firebase(Omni.RootRef).child("event");
+        adapter = new FirebaseRecyclerAdapter<Event, EventViewHolder>(Event.class, R.layout.event_row, EventViewHolder.class, ref) {
+            @Override
+            protected void populateViewHolder(EventViewHolder eventViewHolder, Event event, int i) {
+                EventViewHolder.eventTitle.setText(event.getName());
+                EventViewHolder.eventPic.setImageBitmap(Omni.StringToBitMap(event.getCreator().getPicURL()));
+                EventViewHolder.userName.setText(event.getCreator().getUserName());
+                EventViewHolder.Location.setText(event.getLocation());
+                EventViewHolder.Summary.setText(event.getSummary());
             }
-        });
+        };
+        skeleton.setAdapter(adapter);
         return view;
     }
 
-}
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        context = activity;
+    }
+
+
+
+
+    }
