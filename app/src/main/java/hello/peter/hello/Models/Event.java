@@ -29,13 +29,23 @@ public class Event {
     }
 
     protected String Summary;
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    protected String key;
     protected HashMap<String,Person> members;
     protected int hour, minute;
     protected Person creator;
 
     public Event(){}
 
-    public Event(String loc, String name, HashMap<String,Person> mem, int h, int m, Person p, String sum){
+    public Event(String loc, String name, HashMap<String,Person> mem, int h, int m, Person p, String sum, String k){
         Location = loc;
         this.name = name;
         members = mem;
@@ -43,6 +53,7 @@ public class Event {
         minute = m;
         creator = p;
         Summary = sum;
+        key = k;
     }
 
     public String getLocation() {

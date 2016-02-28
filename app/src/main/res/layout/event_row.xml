@@ -2,14 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="10dp" android:paddingTop="10dp">
+    android:paddingBottom="10dp" android:paddingTop="10dp"
+    android:clickable="true">
 
     <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:id="@+id/eventPic"
         android:paddingLeft="16dp"
+        android:paddingTop="5dp"
         android:layout_gravity="left"
+        android:src="@mipmap/ic_launcher"
         />
     <TextView
         android:layout_width="wrap_content"
@@ -24,24 +27,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/userName"
-        android:layout_gravity="left"
-        android:layout_toEndOf="@+id/eventPic"
-        android:layout_below="@+id/eventPic"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:paddingLeft="@dimen/eventOffset"
+        android:paddingTop="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Location"
-        android:layout_above="@+id/eventText"
-        android:layout_toRightOf="@+id/eventPic"
-        android:layout_toEndOf="@+id/eventPic" />
+        android:paddingLeft="@dimen/eventOffset"
+        android:layout_below="@+id/userName" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Summary"
-        android:layout_toRightOf="@+id/eventPic"
         android:layout_below="@+id/Location"
+        android:paddingLeft="@dimen/eventOffset"
         />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/eventHash"
+        android:visibility="invisible"
+        />
+
 </RelativeLayout>

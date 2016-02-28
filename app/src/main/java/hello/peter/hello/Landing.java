@@ -95,7 +95,8 @@ public class Landing extends AppCompatActivity {
         // Take appropriate action for each action item click
         switch (item.getItemId()) {
             case R.id.profile:
-
+                Intent k = new Intent(Landing.this, Profile.class);
+                Landing.this.startActivity(k);
                 return true;
             case R.id.notifications:
 
@@ -107,6 +108,14 @@ public class Landing extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent i = new Intent();
+        i.setAction(Intent.ACTION_MAIN);
+        i.addCategory(Intent.CATEGORY_HOME);
+        this.startActivity(i);
     }
 
 }

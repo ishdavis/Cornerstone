@@ -80,6 +80,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="hello.peter.hello.Landing" />
         </activity>
+        <activity
+            android:name=".Profile"
+            android:label="@string/title_activity_profile"
+            android:parentActivityName=".Landing"
+            android:theme="@style/MyMaterialTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="hello.peter.hello.Landing" />
+        </activity>
     </application>
 
 </manifest>

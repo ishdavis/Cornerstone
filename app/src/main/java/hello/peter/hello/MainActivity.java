@@ -65,8 +65,9 @@ public class MainActivity extends AppCompatActivity {
         prefs = getSharedPreferences(getString(R.string.shared_prefs), MODE_PRIVATE);
         if(prefs.getInt("Logged In", 0) == 1) {
             //User is logged in, go to their profile here
-            Intent i = new Intent(MainActivity.this, Landing.class);
-            MainActivity.this.startActivity(i);
+//            Firebase.setAndroidContext(this);
+//            Intent i = new Intent(MainActivity.this, Landing.class);
+//            MainActivity.this.startActivity(i);
         }
         setContentView(R.layout.activity_main);
         getWindow().getDecorView().setBackgroundColor(Color.rgb(237, 24, 69));

@@ -127,7 +127,7 @@ public class CreateEvent extends AppCompatActivity {
         Person currentUser = new Person(userName,passWord,phoneNo, Omni.BitMapToString(getProfilePic()));
         HashMap<String,Person> list = new HashMap<String,Person>();
         list.put(userName, currentUser);
-        Event newEvent = new Event(location,name, list ,hour,minute,currentUser,summary);
+        Event newEvent = new Event(location,name, list ,hour,minute,currentUser,summary, "");
 
         //add to firebase event
         Firebase ref = new Firebase(Omni.RootRef).child("event");
@@ -136,6 +136,9 @@ public class CreateEvent extends AppCompatActivity {
 
 
         String postId = otherRef.getKey();
+        Map<String,Object> key = new HashMap<String,Object>();
+        key.put("key", postId);
+        ref.child(postId).updateChildren(key);
         Firebase userRef = new Firebase(Omni.RootRef).child("users").child(userName).child("events");
         Map<String,Object> myMap = new HashMap<String,Object>();
         myMap.put(postId,1);

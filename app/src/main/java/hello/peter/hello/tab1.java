@@ -1,14 +1,22 @@
 package hello.peter.hello;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Bundle;
@@ -18,19 +26,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.app.TimePickerDialog;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 
+import org.w3c.dom.Text;
+
+import java.io.File;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import hello.peter.hello.Models.Event;
+import hello.peter.hello.Models.Person;
 import hello.peter.hello.Utils.Omni;
+import hello.peter.hello.Utils.RoundedAvatarDrawable;
 import hello.peter.hello.util.DividerItemDecoration;
 
 
@@ -43,6 +66,7 @@ public class tab1 extends Fragment {
     protected FirebaseRecyclerAdapter<Event,EventViewHolder> adapter;
     protected Context context;
     public ProgressDialog barProgressDialog;
+    public int Called = 0;
 
 
     // TODO: Rename and change types of parameters
@@ -86,7 +110,20 @@ public class tab1 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tab1, container, false);
-        Firebase.setAndroidContext(context);
+//        ProgressDialog prog = new ProgressDialog(context);
+//        prog.setCancelable(false);
+//        prog.setIndeterminate(true);
+//        prog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//        prog.show();
+        //Firebase.setAndroidContext(context);
+        /*new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                } catch (Exception e) {
+                }
+            }
+        }).start();*/
         skeleton = (RecyclerView)view.findViewById(R.id.allActivities);
         RecyclerView.ItemDecoration itemDecoration = new
                 DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST);
@@ -96,15 +133,98 @@ public class tab1 extends Fragment {
         manage.setReverseLayout(true);
         manage.setStackFromEnd(true);
         skeleton.setLayoutManager(manage);
+
+        final GestureDetector mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+
+            @Override public boolean onSingleTapUp(MotionEvent e) {
+                return true;
+            }
+
+        });
+
+
+        skeleton.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                View child = skeleton.findChildViewUnder(e.getX(), e.getY());
+                if(child!= null && mGestureDetector.onTouchEvent(e)){
+                    TextView key = (TextView)child.findViewById(R.id.eventHash);
+                    String eventKey = key.getText().toString();
+                    final Firebase names = new Firebase(Omni.RootRef).child("event").child(eventKey).child("members");
+                    final ArrayList<String> name = new ArrayList<String>();
+                    names.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for(DataSnapshot post : dataSnapshot.getChildren()){
+                                name.add(post.getKey());
+                            }
+                            if(Called == 0) {
+                                Called = 1;
+                                AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                                LayoutInflater inflater = getActivity().getLayoutInflater();
+                                View convertView = (View) inflater.inflate(R.layout.eventmembers, null);
+                                alertDialog.setView(convertView);
+                                alertDialog.setTitle("Members");
+                                ListView lv = (ListView) convertView.findViewById(R.id.eventMembers);
+                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, name);
+                                lv.setAdapter(adapter);
+
+                                alertDialog.setNegativeButton("Back", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        Called = 0;
+                                    }
+                                });
+                                alertDialog.setPositiveButton("Join", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        SharedPreferences prefs = context.getSharedPreferences(getString(R.string.shared_prefs), context.MODE_PRIVATE);
+                                        String userName = prefs.getString("username", "");
+                                        String passWord = prefs.getString("password", "");
+                                        String phoneNo = prefs.getString("phonenumber", "");
+                                        Person currentUser = new Person(userName, passWord, phoneNo, Omni.BitMapToString(getProfilePic()));
+                                        Map<String, Object> addMe = new HashMap<String, Object>();
+                                        addMe.put(currentUser.getUserName(), currentUser);
+                                        names.child(userName).setValue(currentUser);
+                                        Called = 0;
+                                    }
+                                });
+                                alertDialog.show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+
+                        }
+                    });
+                }
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
         Firebase ref = new Firebase(Omni.RootRef).child("event");
         adapter = new FirebaseRecyclerAdapter<Event, EventViewHolder>(Event.class, R.layout.event_row, EventViewHolder.class, ref) {
             @Override
-            protected void populateViewHolder(EventViewHolder eventViewHolder, Event event, int i) {
+            protected void populateViewHolder(final EventViewHolder eventViewHolder, Event event, int i) {
                 EventViewHolder.eventTitle.setText(event.getName());
-                EventViewHolder.eventPic.setImageBitmap(Omni.StringToBitMap(event.getCreator().getPicURL()));
+                Bitmap map = Omni.StringToBitMap(event.getCreator().getPicURL());
+                map = Bitmap.createScaledBitmap(map, 60, 60, true);
+                EventViewHolder.eventPic.setImageBitmap(map);
                 EventViewHolder.userName.setText(event.getCreator().getUserName());
                 EventViewHolder.Location.setText(event.getLocation());
                 EventViewHolder.Summary.setText(event.getSummary());
+                EventViewHolder.Hash.setText(event.getKey());
             }
         };
         skeleton.setAdapter(adapter);
@@ -117,7 +237,10 @@ public class tab1 extends Fragment {
         context = activity;
     }
 
-
-
+    private Bitmap getProfilePic(){
+        String yourFilePath = context.getFilesDir() + "/" + "bitmap.png";
+        File yourFile = new File(yourFilePath);
+        return BitmapFactory.decodeFile(yourFilePath);
+    }
 
     }

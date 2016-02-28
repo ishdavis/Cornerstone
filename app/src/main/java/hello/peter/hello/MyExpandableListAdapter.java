@@ -75,14 +75,12 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         if(state[groupPosition][childPosition] == 1){//If option has been chosen
             Drawable current = check[0];
             //text.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pictures, 0, 0, 0);
-            current.setAlpha(255);
-            text.setText("Chosen");
+            text.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_check_mark_md, 0, 0, 0);
         }
         else {//If option hasn't been chosen
-            Drawable current = check[0];
             //text.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pictures,0,0,0);
-            current.setAlpha(0);
             text.setText(children);
+            text.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_checkmark, 0, 0, 0);
         }
         final View child = convertView;
         final int childPos = childPosition, groupPos = groupPosition;
@@ -90,18 +88,16 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 TextView texts = (TextView) child.findViewById(R.id.textView6);
-                Drawable [] checks = texts.getCompoundDrawables();
                 if(state[groupPos][childPos] == 1){//Deselect option that has been chosen
-                    Drawable currents = checks[0];
                     //currents.setAlpha(0);
                     state[groupPos][childPos] = 0;
-                    texts.setText(children);
+                    //texts.setText(children);
+                    texts.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_checkmark, 0, 0, 0);
                 }
                 else {//Select option that hasn't been chosen
-                    Drawable currents = checks[0];
                     //currents.setAlpha(0);
                     state[groupPos][childPos] = 1;
-                    texts.setText("Chosen");
+                    texts.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_check_mark_md,0,0,0);
                 }
             }
         });

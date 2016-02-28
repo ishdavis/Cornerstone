@@ -23,4 +23,5 @@
     <string name="title_activity_tests">Tests</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_create_event">CreateEvent</string>
+    <string name="title_activity_profile">Profile</string>
 </resources>

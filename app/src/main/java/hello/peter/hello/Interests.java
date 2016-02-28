@@ -81,7 +81,7 @@ public class Interests extends AppCompatActivity implements
         SharedPreferences prefs = this.getSharedPreferences(getString(R.string.shared_prefs), MODE_PRIVATE);
         userName = prefs.getString("username", null);
         alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("Please choose up to 10 activites that interest you");
+        alertDialogBuilder.setMessage("Please choose all activities that interest you");
         alertDialogBuilder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

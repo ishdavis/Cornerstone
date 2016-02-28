@@ -74,7 +74,7 @@ public class Omni extends Activity{
         int number = 0;
         input = input.toLowerCase();
         for(int i = 1; i < input.length()-1; i++){
-
+            ;
         }
         return 0 - number;
     }

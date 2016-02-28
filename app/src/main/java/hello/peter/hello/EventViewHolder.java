@@ -10,8 +10,8 @@ import com.pkmmte.view.CircularImageView;
 /**
  * Created by Ishdavis on 2/24/2016.
  */
-public class EventViewHolder extends RecyclerView.ViewHolder{
-    public static TextView eventTitle, userName, Location, Summary;
+public class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public static TextView eventTitle, userName, Location, Summary, Hash;
     public static ImageView eventPic;
 
     public EventViewHolder(View itemView){
@@ -21,5 +21,11 @@ public class EventViewHolder extends RecyclerView.ViewHolder{
         userName = (TextView)itemView.findViewById(R.id.userName);
         Location = (TextView)itemView.findViewById(R.id.Location);
         Summary = (TextView)itemView.findViewById(R.id.Summary);
+        Hash = (TextView)itemView.findViewById(R.id.eventHash);
+    }
+
+    @Override
+    public void onClick(View view) {
+        int position = getLayoutPosition();
     }
 }

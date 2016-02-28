@@ -165,8 +165,9 @@ public class SignUp extends AppCompatActivity {
                     editor.putString("phonenumber", phonenumber);
                     editor.apply();
 
-                    if(bitmap != null){saveProfilePic(bitmap);}
-                    else{
+                    if (bitmap != null) {
+                        saveProfilePic(bitmap);
+                    } else {
                         bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_default_profile);
                         saveProfilePic(bitmap);
                     }
@@ -198,6 +199,7 @@ public class SignUp extends AppCompatActivity {
                 InputStream stream = getContentResolver().openInputStream(
                         data.getData());
                 bitmap = BitmapFactory.decodeStream(stream);
+                bitmap = resize(bitmap,75,75);
                 //This resizing works correctly
                 //Bitmap resized = Bitmap.createScaledBitmap(bitmap,240,240,false);
                 imageView.setImageBitmap(bitmap);
@@ -222,6 +224,27 @@ public class SignUp extends AppCompatActivity {
             outputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private Bitmap resize(Bitmap image, int maxWidth, int maxHeight) {
+        if (maxHeight > 0 && maxWidth > 0) {
+            int width = image.getWidth();
+            int height = image.getHeight();
+            float ratioBitmap = (float) width / (float) height;
+            float ratioMax = (float) maxWidth / (float) maxHeight;
+
+            int finalWidth = maxWidth;
+            int finalHeight = maxHeight;
+            if (ratioMax > 1) {
+                finalWidth = (int) ((float)maxHeight * ratioBitmap);
+            } else {
+                finalHeight = (int) ((float)maxWidth / ratioBitmap);
+            }
+            image = Bitmap.createScaledBitmap(image, finalWidth, finalHeight, true);
+            return image;
+        } else {
+            return image;
         }
     }
 
