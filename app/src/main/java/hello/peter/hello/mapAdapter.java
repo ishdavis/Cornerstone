@@ -1,5 +1,7 @@
 package hello.peter.hello;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
@@ -13,9 +15,13 @@ import android.widget.TextView;
 import android.content.Context;
 import android.widget.Toast;
 
+import java.io.File;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
 import android.telephony.gsm.SmsManager;
 
 import android.widget.Button;
@@ -25,6 +31,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import hello.peter.hello.Models.FriendRequest;
 import hello.peter.hello.Utils.Omni;
 
 /**
@@ -56,14 +63,16 @@ import hello.peter.hello.Utils.Omni;
         protected Drawable curr;
         protected Context context;
         final protected String userName;
+        protected File file;
         // Pass in the contact array into the constructor
-        public mapAdapter(ArrayList<String> name, ArrayList<String> number, Context in, ArrayList<Integer> members, String userName) {
+        public mapAdapter(ArrayList<String> name, ArrayList<String> number, Context in, ArrayList<Integer> members, String userName, File file) {
             names = name;
             numbers = number;
             memo = new int[names.size()];
             context = in;
             member = members;
             this.userName = userName;
+            this.file = file;
         }
 
         @Override
@@ -123,7 +132,21 @@ import hello.peter.hello.Utils.Omni;
                            @Override
                            public void onDataChange(DataSnapshot dataSnapshot) {
                              String friendName = (String)dataSnapshot.getValue();
-                             Omni.addFriend(userName,friendName);//Possibly change this to friend requests
+                             //Omni.addFriend(userName,friendName);//Possibly change this to friend requests
+                               FriendRequest request = new FriendRequest(userName, Omni.BitMapToString(getProfilePic()), "");
+                               Firebase friendRef = new Firebase(Omni.RootRef).child("users").child(friendName).child("notifications/FriendRequests");
+                               Firebase pushRef = friendRef.push();
+                               pushRef.setValue(request);
+                               //Map<String,Object> friendRequest = new HashMap<String, Object>();
+                               //friendRequest.put(userName, 1);
+                               //pushRef.setValue(friendRequest);
+                               String postId = pushRef.getKey();
+                               request.setKey(postId);
+                               //friendRequest.put(userName, postId);
+                               Firebase update = friendRef.child(postId);
+                               Map<String, Object> key = new HashMap<String, Object>();
+                               key.put("key", postId);
+                               update.updateChildren(key);
                                Toast.makeText(context, "Friend Request Sent", Toast.LENGTH_SHORT).show();
                            }
 
@@ -142,5 +165,11 @@ import hello.peter.hello.Utils.Omni;
         public int getItemCount() {
             return names.size();
         }
+
+    private Bitmap getProfilePic(){
+        String yourFilePath = file + "/" + "bitmap.png";
+        File yourFile = new File(yourFilePath);
+        return BitmapFactory.decodeFile(yourFilePath);
+    }
     }
 

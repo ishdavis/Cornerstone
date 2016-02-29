@@ -165,6 +165,7 @@ public class tab1 extends Fragment {
                                 View convertView = (View) inflater.inflate(R.layout.eventmembers, null);
                                 alertDialog.setView(convertView);
                                 alertDialog.setTitle("Members");
+                                alertDialog.setCancelable(false);
                                 ListView lv = (ListView) convertView.findViewById(R.id.eventMembers);
                                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, name);
                                 lv.setAdapter(adapter);
@@ -217,11 +218,11 @@ public class tab1 extends Fragment {
         adapter = new FirebaseRecyclerAdapter<Event, EventViewHolder>(Event.class, R.layout.event_row, EventViewHolder.class, ref) {
             @Override
             protected void populateViewHolder(final EventViewHolder eventViewHolder, Event event, int i) {
-                EventViewHolder.eventTitle.setText(event.getName());
+                EventViewHolder.eventTitle.setText(event.getCreator().getUserName());
                 Bitmap map = Omni.StringToBitMap(event.getCreator().getPicURL());
                 map = Bitmap.createScaledBitmap(map, 60, 60, true);
                 EventViewHolder.eventPic.setImageBitmap(map);
-                EventViewHolder.userName.setText(event.getCreator().getUserName());
+                EventViewHolder.userName.setText(event.getName() + " @ " + transformTime(event.getHour(),event.getMinute()));
                 EventViewHolder.Location.setText(event.getLocation());
                 EventViewHolder.Summary.setText(event.getSummary());
                 EventViewHolder.Hash.setText(event.getKey());
@@ -241,6 +242,30 @@ public class tab1 extends Fragment {
         String yourFilePath = context.getFilesDir() + "/" + "bitmap.png";
         File yourFile = new File(yourFilePath);
         return BitmapFactory.decodeFile(yourFilePath);
+    }
+
+    private String transformTime(int hour, int minute){
+        StringBuilder time = new StringBuilder(hour);
+        String zone;
+        if (hour == 0) {
+            hour += 12;
+            zone = "A.M.";
+        }
+        else if (hour == 12) {
+            zone = "P.M.";
+        } else if (hour > 12) {
+            hour -= 12;
+            zone = "P.M.";
+        } else {
+            zone = "A.M.";
+        }
+        time.append(hour);
+        time.append(":");
+        if(minute < 10){time.append("0");}
+        time.append(minute);
+        time.append(" ");
+        time.append(zone);
+        return time.toString();
     }
 
     }

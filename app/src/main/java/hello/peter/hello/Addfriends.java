@@ -2,6 +2,8 @@ package hello.peter.hello;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -19,6 +21,7 @@ import android.content.Loader;
 import android.widget.Button;
 import android.widget.SearchView;
 
+import java.io.File;
 import java.lang.reflect.Array;
 import java.util.List;
 import java.util.ArrayList;
@@ -54,6 +57,8 @@ public class Addfriends extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addfriends);
         SearchView search = (SearchView)findViewById(R.id.searchView);
+        File directory = this.getFilesDir();
+
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -93,7 +98,7 @@ public class Addfriends extends AppCompatActivity{
         rvContacts.addItemDecoration(itemDecoration);
         SharedPreferences prefs = this.getSharedPreferences(getString(R.string.shared_prefs), Context.MODE_PRIVATE);
         userName = prefs.getString("username", null);
-        mapAdapter adapter = new mapAdapter(names,number,getApplicationContext(), member, userName);
+        mapAdapter adapter = new mapAdapter(names,number,getApplicationContext(), member, userName, directory);
 
         rvContacts.setAdapter(adapter);
         rvContacts.setLayoutManager(new LinearLayoutManager(this));
@@ -106,5 +111,7 @@ public class Addfriends extends AppCompatActivity{
             }
         });
     }
+
+
 
 }

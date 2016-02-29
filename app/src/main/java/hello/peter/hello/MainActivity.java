@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     String userName, otherName, hello;
     public ProgressDialog barProgressDialog;
     public Handler updateBarHandler;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         ed1=(EditText)findViewById(R.id.editText);
         ed2=(EditText)findViewById(R.id.editText2);
         b2=(Button)findViewById(R.id.button2);
+        editor = getSharedPreferences(getString(R.string.shared_prefs), MODE_PRIVATE).edit();
         updateBarHandler = new Handler();
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
                                         if (pass.equals(password)) {
                                             //go to new activity, specifically profile
                                             dialog.dismiss();
+                                            editor.putString("username", username);
+                                            editor.apply();
                                             Intent i = new Intent(MainActivity.this, Landing.class);
                                             MainActivity.this.startActivity(i);
                                         } else {

@@ -15,4 +15,12 @@
         Forge:showAsAction="always"/>
     <item android:id="@+id/settings" android:title="@string/action_settings"
         android:orderInCategory="100" Forge:showAsAction="never" />
+    <item android:id="@+id/discover" android:title="Discover"
+        android:orderInCategory="100" Forge:showAsAction="never" />
+    <item android:id="@+id/logOut" android:title="Logout"
+        android:orderInCategory="100" Forge:showAsAction="never" />
+    <item android:id="@+id/delete" android:title="Delete account"
+        android:orderInCategory="100" Forge:showAsAction="never" />
+    <item android:id="@+id/help" android:title="Help"
+        android:orderInCategory="100" Forge:showAsAction="never" />
 </menu>

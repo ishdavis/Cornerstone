@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="10dp" android:paddingTop="10dp"
+    android:clickable="true">
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/profilePic"
+        android:paddingLeft="16dp"
+        android:paddingTop="5dp"
+        android:layout_gravity="left"
+        />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/deleteFriend"
+        android:paddingTop="10dp"
+        android:layout_gravity="right"
+        android:background="@android:color/transparent"
+        android:layout_toLeftOf="@+id/Accept"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:src="@mipmap/ic_close_round_button_512" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/friendName"
+        android:paddingLeft="@dimen/eventOffset"
+        android:paddingTop="5dp"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+         />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/commonInterests"
+        android:layout_toRightOf="@+id/profilePic"
+        android:max="100"
+        android:progress="80"
+        android:progressTint="#ed1845"
+
+        android:layout_below="@+id/friendName"
+        android:layout_toLeftOf="@+id/deleteFriend"
+        android:layout_toStartOf="@+id/deleteFriend" />
+
+
+</RelativeLayout>

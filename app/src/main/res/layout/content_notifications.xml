@@ -5,15 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="hello.peter.hello.Profile"
-    tools:showIn="@layout/activity_profile">
+    tools:context="hello.peter.hello.Notifications"
+    tools:showIn="@layout/activity_notifications">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/allFriends"
+        android:id="@+id/Notifications"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </RelativeLayout>

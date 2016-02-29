@@ -8,47 +8,43 @@
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/eventPic"
+        android:id="@+id/notificationPic"
         android:paddingLeft="16dp"
         android:paddingTop="5dp"
         android:layout_gravity="left"
         />
-    <TextView
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/eventText"
+        android:id="@+id/Reject"
+        android:paddingTop="10dp"
+        android:layout_gravity="right"
+        android:background="@android:color/transparent"
+        android:layout_toLeftOf="@+id/Accept"
+        android:src="@mipmap/ic_close_round_button_512" />
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Accept"
+        android:paddingTop="10dp"
         android:layout_gravity="end"
-        android:text="Hallo"
-        android:layout_alignBaseline="@+id/userName"
-        android:paddingRight="16dp"
+        android:paddingRight="5dp"
+        android:src="@mipmap/ic_check_mark_md"
+        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:backgroundTintMode="@android:color/transparent"
+        android:background="@android:color/transparent"
+        android:clickable="true" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/userName"
+        android:id="@+id/notificationName"
         android:paddingLeft="@dimen/eventOffset"
-        android:paddingTop="5dp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/Location"
-        android:paddingLeft="@dimen/eventOffset"
-        android:layout_below="@+id/userName" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/Summary"
-        android:layout_below="@+id/Location"
-        android:paddingLeft="@dimen/eventOffset"
-        android:textStyle="normal" />
+        android:paddingTop="20dp"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:id="@+id/eventHash"
-        android:visibility="invisible"
-        />
+        android:id="@+id/position" />
 
 </RelativeLayout>

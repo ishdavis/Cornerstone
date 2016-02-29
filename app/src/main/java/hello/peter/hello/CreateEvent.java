@@ -96,7 +96,7 @@ public class CreateEvent extends AppCompatActivity {
         }
         hour = time.getCurrentHour();
         minute = time.getCurrentMinute();
-
+        int tempHour = hour, tempMinute = minute;
         if (hour == 0) {
             hour += 12;
             chosenTime = "A.M.";
@@ -115,6 +115,8 @@ public class CreateEvent extends AppCompatActivity {
         else {
             alertDialogBuilder.setMessage(name + " will begin at " + hour + ":" + minute + " " + chosenTime);
         }
+        hour = tempHour;
+        minute = tempMinute;
         alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }

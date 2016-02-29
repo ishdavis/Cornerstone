@@ -99,7 +99,8 @@ public class Landing extends AppCompatActivity {
                 Landing.this.startActivity(k);
                 return true;
             case R.id.notifications:
-
+                Intent j = new Intent(Landing.this, Notifications.class);
+                Landing.this.startActivity(j);
                 return true;
             case R.id.add_event:
                 Intent i = new Intent(Landing.this, CreateEvent.class);
